@@ -167,8 +167,8 @@ MonoBehaviour:
   liquidRenderer: {fileID: 5399083637371793258}
   liquidMaterial: {fileID: 2100000, guid: 21c8c1e91ca8dd54b8ede6363b81688a, type: 2}
   bottleneckCollider: {fileID: 9102833679758907410}
-  fillAmount: 0.5
-  pourSpeed: 1
+  infiniteContainer: 0
+  mlPerSecond: 50
   splashRadius: 0.025
 --- !u!1 &2729961473227417053
 GameObject:

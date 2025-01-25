@@ -3,14 +3,15 @@ using UnityEngine;
 
 public class LiquidContainer : MonoBehaviour
 {
-    public float Volume { get; private set; }
-
     [SerializeField] private MeshRenderer liquidRenderer;
     [SerializeField] private Material liquidMaterial;
     [SerializeField] private Collider bottleneckCollider;
-    [SerializeField] [Range(0, 1)] private float fillAmount = 0.5f;
-    [SerializeField] private float pourSpeed = 1;
+    [SerializeField] private bool infiniteContainer;
+    [SerializeField] private float mlPerSecond = 50;
     [SerializeField] private float splashRadius = 0.025f;
+
+    private float _totalVolume;
+    private float _filledVolume;
 
     private static readonly int GravityDirectionId = Shader.PropertyToID("_GravityDirection");
     private static readonly int SurfaceLevelId = Shader.PropertyToID("_SurfaceLevel");
@@ -22,7 +23,9 @@ public class LiquidContainer : MonoBehaviour
 
         var boundsSize = liquidRenderer.bounds.size;
         var scale = transform.lossyScale;
-        Volume = boundsSize.x * boundsSize.y * boundsSize.z * scale.x * scale.y * scale.y * 1000;
+        _totalVolume = boundsSize.x * boundsSize.y * boundsSize.z * scale.x * scale.y * scale.y *
+                       178_296.7f; // Make sure the big bottle is 750ml
+        _filledVolume = _totalVolume;
 
         liquidRenderer.sharedMaterial = liquidMaterial;
 
@@ -31,7 +34,12 @@ public class LiquidContainer : MonoBehaviour
 
     private void Update()
     {
-        if (fillAmount > 0)
+        if (infiniteContainer && _filledVolume < _totalVolume * 0.5f)
+        {
+            _filledVolume += mlPerSecond * Time.deltaTime * 2;
+        }
+
+        if (_filledVolume > 0)
         {
             liquidRenderer.enabled = true;
 
@@ -56,7 +64,8 @@ public class LiquidContainer : MonoBehaviour
         var max = bounds.max.y;
 
         var surfaceLevel = bounds.center;
-        surfaceLevel.y = fillAmount * (max - min) + min;
+        var filledPercentage = _filledVolume / _totalVolume;
+        surfaceLevel.y = filledPercentage * (max - min) + min;
         return surfaceLevel;
     }
 
@@ -65,17 +74,14 @@ public class LiquidContainer : MonoBehaviour
 
     private void PourLiquid()
     {
-        var percentageToRemove = pourSpeed * Time.deltaTime * 0.25f;
-        fillAmount = Mathf.Max(0, fillAmount - percentageToRemove);
+        var volumeToRemove = Mathf.Min(_filledVolume, mlPerSecond * Time.deltaTime);
+        _filledVolume -= volumeToRemove;
 
         // TODO: Where is the point that we hit with the liquid? For now we just assume the cup is below the bottleneck.
         if (TryGetContainer(bottleneckCollider.bounds.min, out var container))
         {
-            Debug.Log($"{gameObject.name} filling {container.gameObject.name}");
-            // TODO: Did we actually hit the bottleneck?
-            var liquidAmount = Volume * percentageToRemove;
-            // TODO: FIXME
-            container.fillAmount = Mathf.Clamp01(container.fillAmount + liquidAmount);
+            var volumeToAdd = Mathf.Min(container._totalVolume - container._filledVolume, volumeToRemove);
+            container._filledVolume += volumeToAdd;
         }
 
         // TODO: Particles
@@ -85,7 +91,6 @@ public class LiquidContainer : MonoBehaviour
     {
         var ray = new Ray(origin, Vector3.down);
 
-        // var raycastHits = new RaycastHit[10]; // TODO: how many hits do we want?
         var raycastHits = Physics.SphereCastAll(ray, splashRadius);
         foreach (var hit in raycastHits.OrderBy(x => x.distance))
         {
