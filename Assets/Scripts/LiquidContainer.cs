@@ -10,8 +10,6 @@ public class LiquidContainer : MonoBehaviour
     [SerializeField] [Range(0, 1)] private float fillAmount = 0.5f;
     [SerializeField] private float pourSpeed = 1;
 
-    private float bottleneckRadius;
-
     private static readonly int GravityDirectionId = Shader.PropertyToID("_GravityDirection");
     private static readonly int SurfaceLevelId = Shader.PropertyToID("_SurfaceLevel");
 
@@ -27,8 +25,6 @@ public class LiquidContainer : MonoBehaviour
         liquidRenderer.sharedMaterial = liquidMaterial;
 
         liquidMaterial.SetVector(GravityDirectionId, Vector3.down);
-
-        bottleneckRadius = bottleneck.localBounds.extents.x;
     }
 
     private void Update()
@@ -40,13 +36,9 @@ public class LiquidContainer : MonoBehaviour
             var surfaceLevel = GetSurfaceLevel();
             liquidRenderer.material.SetVector(SurfaceLevelId, surfaceLevel);
 
-            // TODO: Check extents when inverted.
-            if (surfaceLevel.y > bottleneck.bounds.min.y)
+            if (ShouldPour(surfaceLevel.y))
             {
-                var distance = surfaceLevel.y - bottleneck.bounds.min.y;
-                var rate = Mathf.Clamp01(distance / bottleneckRadius);
-                // TODO: This isn't quite right.
-                PourLiquid(rate);
+                PourLiquid();
             }
         }
         else
@@ -66,44 +58,27 @@ public class LiquidContainer : MonoBehaviour
         return surfaceLevel;
     }
 
-    private void PourLiquid(float rate)
+    private bool ShouldPour(float surfaceLevel) => surfaceLevel > bottleneck.bounds.min.y ||
+                                                   transform.rotation.eulerAngles.z is > 100 and < 260;
+
+    private void PourLiquid()
     {
-        Debug.Log(rate);
-
-        var howLow = Vector3.Dot(Vector3.up, transform.up);
-        var flowScale = 1 - (howLow + 1) * 0.5f + 0.2f;
-
-        var liquidStep = bottleneck.bounds.extents.x * pourSpeed * Time.deltaTime * flowScale * rate;
-        var newLiquidAmount = fillAmount - liquidStep;
-        if (newLiquidAmount < 0)
-        {
-            liquidStep = fillAmount;
-            newLiquidAmount = 0;
-        }
-
-        fillAmount = newLiquidAmount;
+        var liquidToRemove = pourSpeed * Time.deltaTime * 0.25f;
+        fillAmount = Mathf.Max(0, fillAmount - liquidToRemove);
 
         // TODO: Transfer liquid
 
         // TODO: Particles
     }
 
-    #region Gizmos
-
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
-        if (fillAmount > 0)
-        {
-            var radius = bottleneck.bounds.size.x;
-            var bottleneckPos = bottleneck.bounds.min;
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(bottleneckPos, radius);
-
-            var surfaceLevel = GetSurfaceLevel();
-            Gizmos.color = surfaceLevel.y > bottleneck.bounds.min.y ? Color.green : Color.red;
-            Gizmos.DrawWireSphere(surfaceLevel, radius);
-        }
+        var surfaceLevel = GetSurfaceLevel();
+        Gizmos.color = ShouldPour(surfaceLevel.y)
+            ? Color.green
+            : Color.red;
+        var center = liquidRenderer.bounds.center;
+        center.y = surfaceLevel.y;
+        Gizmos.DrawSphere(center, 0.01f);
     }
-
-    #endregion
 }
