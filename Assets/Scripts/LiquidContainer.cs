@@ -10,7 +10,7 @@ public class LiquidContainer : MonoBehaviour
     [SerializeField] private MeshRenderer liquidRenderer;
     [SerializeField] private Material liquidMaterial;
     [SerializeField] private Collider bottleneckCollider;
-    [SerializeField] private Collider pouringLiquidCollider;
+    [SerializeField] private Collider liquidLevelCollider;
     [SerializeField] private bool infiniteContainer;
     [SerializeField] public float mlPerSecond = 50;
     [SerializeField] private float splashRadius = 0.025f;
@@ -21,6 +21,7 @@ public class LiquidContainer : MonoBehaviour
     private int splineNodes = 4;
     [SerializeField] private bool pours;
     [SerializeField] private bool prefill;
+    [SerializeField] private bool neckMoves;
 
     [SerializeField] private float sphereSize;
     [SerializeField] private float maxRayLength
@@ -36,6 +37,8 @@ public class LiquidContainer : MonoBehaviour
 
     internal float _totalVolume;
     [SerializeField] internal float _startVolume;
+    [SerializeField] internal float volumeMultiplier;
+    [SerializeField] internal float _emptyAtVolume;
     [SerializeField] internal float _filledVolume;
 
     private static readonly int GravityDirectionId = Shader.PropertyToID("_GravityDirection");
@@ -71,11 +74,11 @@ public class LiquidContainer : MonoBehaviour
         Debug.Assert(liquidMaterial is not null);
 
 
-        var boundsSize = liquidRenderer.bounds.size;
+        var boundsSize = liquidRenderer.localBounds.size;
         var scale = transform.lossyScale;
 
         _totalVolume = boundsSize.x * boundsSize.y * boundsSize.z * scale.x * scale.y * scale.y *
-                           178_296.7f; // Make sure the big bottle is 750ml
+                       volumeMultiplier; // Make sure the big bottle is 750ml
 
         if (prefill)
         {
@@ -101,22 +104,28 @@ public class LiquidContainer : MonoBehaviour
             _filledVolume += mlPerSecond * Time.deltaTime * 2;
         }
 
-        if (_filledVolume > 0)
+        if (_filledVolume > _emptyAtVolume)
         {
             liquidRenderer.enabled = true;
 
             var surfaceLevel = GetSurfaceLevel();
             liquidRenderer.material.SetVector(SurfaceLevelId, surfaceLevel);
 
+            if (neckMoves)
+            {
+                var bottleNeckPos = liquidLevelCollider.transform.position;
+                bottleNeckPos.y = surfaceLevel.y;
+                liquidLevelCollider.transform.position = bottleNeckPos;
+            }
 
             if (pours)
             {
                 if (ShouldPour(surfaceLevel.y))
                 {
-                    // if (splashEffect.aliveParticleCount <= 0)
-                    // {
-                    //     splashEffect.Play();
-                    // }
+                    if (splashEffect.aliveParticleCount <= 0)
+                    {
+                        splashEffect.Play();
+                    }
 
 
                     spline.gameObject.SetActive(true);
@@ -140,8 +149,13 @@ public class LiquidContainer : MonoBehaviour
         {
             liquidRenderer.enabled = false;
 
+
             if (pours)
             {
+                if (splashEffect.aliveParticleCount > 0)
+                {
+                    splashEffect.Stop();
+                }
                 spline.gameObject.SetActive(false);
             }
         }
@@ -204,6 +218,8 @@ public class LiquidContainer : MonoBehaviour
             spline.nodes[1].Position = _pointsForSample[splinePoints*1];
             spline.nodes[2].Position = _pointsForSample[splinePoints*3];
             spline.nodes[3].Position = _pointsForSample[lastPos-1];
+
+            splashEffect.transform.position = _pointsForSample[lastPos - 1];
 
         }
 

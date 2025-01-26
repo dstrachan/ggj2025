@@ -15,7 +15,7 @@ namespace DefaultNamespace
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.layer == LayerMask.NameToLayer("PourCanHit"))
+            if (other.gameObject.layer == LayerMask.NameToLayer("FillGlass"))
             {
                 var thingToPourInto = other.GetComponentInParent<LiquidContainer>();
                 if (thingToPourInto is not null)
