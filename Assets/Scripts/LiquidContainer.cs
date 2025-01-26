@@ -42,12 +42,12 @@ public class LiquidContainer : MonoBehaviour
         get => _filledVolume;
         set
         {
-            _filledVolume = Mathf.Clamp(value, 0, _totalVolume);
+            _filledVolume = Mathf.Clamp(value, _emptyAtVolume, _totalVolume);
             if (_filledVolume >= _totalVolume)
             {
                 OnContainerFull?.Invoke();
             }
-            else if (_filledVolume <= 0)
+            else if (_filledVolume <= _emptyAtVolume)
             {
                 OnContainerEmpty?.Invoke();
             }
