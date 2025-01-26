@@ -176,7 +176,9 @@ MonoBehaviour:
   sphereSize: 0.005
   maxRayLength: 0.01
   pointsForSamplingLength: 500
-  _startVolume: 700
+  fillAudio: {fileID: 0}
+  filledAudio: {fileID: 0}
+  _startVolume: 800
   volumeMultiplier: 260000
   _emptyAtVolume: 260
   _filledVolume: 0

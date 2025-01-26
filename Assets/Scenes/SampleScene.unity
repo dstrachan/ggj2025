@@ -2336,7 +2336,7 @@ MonoBehaviour:
   bottlePrefab: {fileID: 3224697559289677852, guid: eba197c4a4f9fd244921b0dc029dbad6, type: 3}
   activeBottle: {fileID: 0}
   oldBottle: {fileID: 0}
-  oldBottlePosition: {x: -1.342, y: -3.243, z: 7.719}
+  oldBottlePosition: {x: -1.342, y: -3.212, z: 7.719}
   spline: {fileID: 265430413}
   moveCurve:
     serializedVersion: 2
@@ -2383,7 +2383,7 @@ Transform:
   m_GameObject: {fileID: 1094092475}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.39138398, w: 0.92022747}
-  m_LocalPosition: {x: -0.701, y: -2.791, z: 7.211}
+  m_LocalPosition: {x: -0.643, y: -2.54, z: 7.211}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4343,10 +4343,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bottleToControl: {fileID: 362851788}
-  rotateForwardSpeed: 45
-  rotateBackwardSpeed: 100
+  rotateForwardSpeed: 65
+  rotateBackwardSpeed: 130
   xBounds: {x: -2.8, y: -1.3}
-  rotateBounds: {x: 45, y: 130}
+  rotateBounds: {x: 35, y: 140}
   startingRail: {fileID: 1806927329}
   rails:
   - {fileID: 1806927329}
@@ -4626,11 +4626,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1984968432900421425, guid: eba197c4a4f9fd244921b0dc029dbad6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.342
+      value: -1.392
       objectReference: {fileID: 0}
     - target: {fileID: 1984968432900421425, guid: eba197c4a4f9fd244921b0dc029dbad6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.243
+      value: -3.212
       objectReference: {fileID: 0}
     - target: {fileID: 1984968432900421425, guid: eba197c4a4f9fd244921b0dc029dbad6, type: 3}
       propertyPath: m_LocalPosition.z
