@@ -38,7 +38,7 @@ namespace DefaultNamespace
                     oldBottle.tag = "Untagged";
                     oldBottlePosition = oldBottle.transform.position;
                     oldBottle.GetComponentInChildren<LiquidContainer>().OnContainerEmpty -= BottlePrefabOnOnContainerEmpty;
-                    var coroutine = Move(oldBottle, oldBottle.transform.position, transform.position, timeToThrowAway, true);
+                    var coroutine = Move(oldBottle, oldBottle.transform.position, transform.position, timeToThrowAway, true, 0.5f);
                     StartCoroutine(coroutine);
                 }
 
@@ -48,7 +48,7 @@ namespace DefaultNamespace
                 liquid.spline = spline;
                 liquid.OnContainerEmpty += BottlePrefabOnOnContainerEmpty;
 
-                var coroutineNew = Move(activeBottle, activeBottle.transform.position, oldBottlePosition, timeToThrowAway, false);
+                var coroutineNew = Move(activeBottle, activeBottle.transform.position, oldBottlePosition, timeToThrowAway, false, 1f);
                 StartCoroutine(coroutineNew);
 
                 //bottleController.SetBottleRail(0, 0.1f);
@@ -56,8 +56,11 @@ namespace DefaultNamespace
 
         }
 
-        private IEnumerator Move(GameObject bottleToMove, Vector3 start, Vector3 end, float time, bool destroy)
+        private IEnumerator Move(GameObject bottleToMove, Vector3 start, Vector3 end, float time, bool destroy, float delay)
         {
+
+            yield return new WaitForSecondsRealtime(delay);
+
             var elapsedTime = 0f;
             while (elapsedTime < time)
             {
