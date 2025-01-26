@@ -43,8 +43,8 @@ GameObject:
   - component: {fileID: 1441108109136983531}
   - component: {fileID: 1783242726474927583}
   - component: {fileID: 5030826270609453837}
-  m_Layer: 6
-  m_Name: Bottleneck
+  m_Layer: 7
+  m_Name: FillGlass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 6767991123049184682}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0036, y: -0.1594, z: -0.1673}
+  m_LocalPosition: {x: -0.0006, y: 0.1618, z: 0.0096}
   m_LocalScale: {x: 0.1, y: 0.001, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -114,6 +114,88 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!1 &6819597884513677359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 302328724757112649}
+  - component: {fileID: 7669705791345176993}
+  - component: {fileID: 2051070826975347684}
+  m_Layer: 6
+  m_Name: LiquidTop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &302328724757112649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819597884513677359}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0006, y: 0.1437, z: 0.0096}
+  m_LocalScale: {x: 0.1, y: 0.001, z: 0.1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6339675363553197899}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &7669705791345176993
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819597884513677359}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &2051070826975347684
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819597884513677359}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &9142103115440560183
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +227,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1441108109136983531}
+  - {fileID: 302328724757112649}
   - {fileID: 1670031814331355951}
   m_Father: {fileID: 2887358962123409593}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -163,20 +246,22 @@ MonoBehaviour:
   liquidRenderer: {fileID: 6546044041320099243}
   liquidMaterial: {fileID: 2100000, guid: 21c8c1e91ca8dd54b8ede6363b81688a, type: 2}
   bottleneckCollider: {fileID: 1783242726474927583}
-  pouringLiquidCollider: {fileID: 0}
+  liquidLevelCollider: {fileID: 7669705791345176993}
   infiniteContainer: 0
   mlPerSecond: 50
-  splashRadius: 0.025
   spline: {fileID: 0}
   splashEffect: {fileID: 0}
   force: 0
   extraPourLength: 0
   pours: 0
   prefill: 0
+  neckMoves: 0
   sphereSize: 0
   maxRayLength: 0
   pointsForSamplingLength: 0
   _startVolume: 0
+  volumeMultiplier: 80000
+  _emptyAtVolume: 0
   _filledVolume: 0
 --- !u!1001 &1200099810140435652
 PrefabInstance:
@@ -188,31 +273,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b2aeb61590cb199498752ccd0134a62d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.01088047
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b2aeb61590cb199498752ccd0134a62d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.32557607
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b2aeb61590cb199498752ccd0134a62d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.17099428
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b2aeb61590cb199498752ccd0134a62d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.85492873
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b2aeb61590cb199498752ccd0134a62d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b2aeb61590cb199498752ccd0134a62d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.5187454
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b2aeb61590cb199498752ccd0134a62d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b2aeb61590cb199498752ccd0134a62d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -220,7 +305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b2aeb61590cb199498752ccd0134a62d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -782.496
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b2aeb61590cb199498752ccd0134a62d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
