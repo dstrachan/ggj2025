@@ -35,6 +35,7 @@ public class LiquidContainer : MonoBehaviour
 
 
     internal float _totalVolume;
+    [SerializeField] internal float _startVolume;
     [SerializeField] internal float _filledVolume;
 
     private static readonly int GravityDirectionId = Shader.PropertyToID("_GravityDirection");
@@ -72,12 +73,13 @@ public class LiquidContainer : MonoBehaviour
 
         var boundsSize = liquidRenderer.bounds.size;
         var scale = transform.lossyScale;
+
         _totalVolume = boundsSize.x * boundsSize.y * boundsSize.z * scale.x * scale.y * scale.y *
-                       178_296.7f; // Make sure the big bottle is 750ml
+                           178_296.7f; // Make sure the big bottle is 750ml
 
         if (prefill)
         {
-            _filledVolume = _totalVolume;
+            _filledVolume = _startVolume;
         }
 
         liquidRenderer.sharedMaterial = liquidMaterial;

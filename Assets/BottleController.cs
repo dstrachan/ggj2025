@@ -40,8 +40,15 @@ public class BottleController : MonoBehaviour
         var axis = isPressed ? Vector3.forward : Vector3.back;
         var rotateValue = (isPressed ? rotateForwardSpeed : rotateBackwardSpeed) * Time.deltaTime;
         transform.Rotate(axis, rotateValue, Space.World);
-        var clampedRotation = transform.rotation.eulerAngles;
-        clampedRotation.z = Mathf.Clamp(clampedRotation.z, rotateBounds.x, rotateBounds.y);
-        transform.rotation = Quaternion.Euler(clampedRotation);
+
+        var angles = transform.eulerAngles;
+        angles.z = Mathf.Clamp(transform.eulerAngles.z, rotateBounds.x, rotateBounds.y);
+        angles.x = 0;
+        angles.y = 0;
+        transform.eulerAngles = angles;
+
+        // var clampedRotation = transform.rotation.eulerAngles;
+        // clampedRotation.z = Mathf.Clamp(clampedRotation.z, rotateBounds.x, rotateBounds.y);
+        // transform.rotation = Quaternion.Euler(clampedRotation);
     }
 }
