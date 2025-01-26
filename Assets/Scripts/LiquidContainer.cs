@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using DefaultNamespace;
 using SplineMesh;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -15,9 +17,12 @@ public class LiquidContainer : MonoBehaviour
     [SerializeField] private Spline spline;
     [SerializeField] private VisualEffect splashEffect;
     [SerializeField] private float force;
-    [SerializeField] private float splineNodes;
+    [SerializeField] private int extraPourLength = 4;
+    private int splineNodes = 4;
     [SerializeField] private bool pours;
     [SerializeField] private bool prefill;
+
+    private Vector3[] _pointsForSample;
 
     private bool _updateSpline;
 
@@ -52,6 +57,7 @@ public class LiquidContainer : MonoBehaviour
     private void Awake()
     {
         _updateSpline = pours;
+        _pointsForSample = new Vector3[200];
 
         Debug.Assert(liquidRenderer is not null);
         Debug.Assert(liquidMaterial is not null);
@@ -147,6 +153,7 @@ public class LiquidContainer : MonoBehaviour
     private bool ShouldPour(float surfaceLevel) => surfaceLevel > bottleneckCollider.bounds.min.y ||
                                                    transform.rotation.eulerAngles.z is > 100 and < 260;
 
+
     private void PourLiquid()
     {
         var volumeToRemove = Mathf.Min(_filledVolume, mlPerSecond * Time.deltaTime);
@@ -154,10 +161,39 @@ public class LiquidContainer : MonoBehaviour
 
         if (pours)
         {
-            for (int i = 0; i < splineNodes; i++)
+
+            var lastPos = -1;
+            var maxIter = 199;
+            var i = 0;
+            var firstHit = false;
+            while (i < maxIter)
             {
-                spline.nodes[i].Position = ArcPosition(i * (0.6f / splineNodes));
+
+                var x = ArcPosition(i * (1f / 200f));
+                var toGround = Utils.ProjectPointToGround(x);
+
+                _pointsForSample[i] = x;
+
+                if (!firstHit && toGround != null)
+                {
+
+                    maxIter = i + extraPourLength;
+                    firstHit = true;
+                }
+
+
+                i++;
+                lastPos = i;
+
             }
+
+            var splinePoints = lastPos / 4;
+
+            spline.nodes[0].Position = _pointsForSample[0];
+            spline.nodes[1].Position = _pointsForSample[splinePoints*1];
+            spline.nodes[2].Position = _pointsForSample[splinePoints*3];
+            spline.nodes[3].Position = _pointsForSample[lastPos-1];
+
         }
 
         // TODO: Where is the point that we hit with the liquid? For now we just assume the cup is below the bottleneck.
@@ -217,11 +253,30 @@ public class LiquidContainer : MonoBehaviour
 
         if (pours)
         {
-            for (int i = 1; i < 50; i++)
+
+            var lastPos = -1;
+            var maxIter = 200;
+            var i = 0;
+            var firstHit = false;
+            while (i < maxIter)
             {
-                var x = ArcPosition(i * (0.5f / 50f));
+                var x = ArcPosition(i * (1f / 200f));
+                var toGround = Utils.ProjectPointToGround(x);
+
                 Gizmos.DrawSphere(x, 0.01f);
+
+                if (!firstHit && toGround != null)
+                {
+
+                    maxIter = i + extraPourLength;
+                    firstHit = true;
+                }
+
+                lastPos = i;
+                i++;
+
             }
+
         }
 
 
