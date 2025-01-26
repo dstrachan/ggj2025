@@ -225,8 +225,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2268995126448035874}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.14151607, w: 0.98993593}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.168, z: -0.055}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -234,7 +234,7 @@ Transform:
   - {fileID: 4915941468625018175}
   - {fileID: 7301310949678480568}
   m_Father: {fileID: 1984968432900421425}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -16.271}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2621675105179519950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,14 +252,18 @@ MonoBehaviour:
   bottleneckCollider: {fileID: 9102833679758907410}
   pouringLiquidCollider: {fileID: 0}
   infiniteContainer: 1
-  mlPerSecond: 30
+  mlPerSecond: 90
   splashRadius: 0.025
   spline: {fileID: 0}
   splashEffect: {fileID: 9015995807050927749}
   force: 1.1
-  extraPourLength: 3
+  extraPourLength: 6
   pours: 1
   prefill: 1
+  sphereSize: 0.005
+  maxRayLength: 0.01
+  pointsForSamplingLength: 500
+  _startVolume: 1150
   _filledVolume: 0
 --- !u!1 &2729961473227417053
 GameObject:
@@ -357,6 +361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1984968432900421425}
   - component: {fileID: 1134000737764564497}
+  - component: {fileID: 7826791349464284777}
   m_Layer: 3
   m_Name: Bottle
   m_TagString: Untagged
@@ -402,6 +407,24 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &7826791349464284777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3224697559289677852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d174abf954c6454bb5fb9985a20738c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0.5
+  rotateForwardSpeed: 30
+  rotateBackwardSpeed: 10
+  xBounds: {x: -2.6, y: -1.4}
+  zBounds: {x: 7.1, y: 7.7}
+  rotateBounds: {x: 15, y: 125}
 --- !u!1 &5659364609433602574
 GameObject:
   m_ObjectHideFlags: 0

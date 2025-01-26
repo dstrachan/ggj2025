@@ -173,6 +173,10 @@ MonoBehaviour:
   extraPourLength: 0
   pours: 0
   prefill: 0
+  sphereSize: 0
+  maxRayLength: 0
+  pointsForSamplingLength: 0
+  _startVolume: 0
   _filledVolume: 0
 --- !u!1001 &1200099810140435652
 PrefabInstance:

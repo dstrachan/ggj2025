@@ -94,7 +94,7 @@ Material:
     - _CastShadows: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Clip: 0.334
+    - _Clip: 0.068
     - _Color1Strength: 0.76
     - _Color2Strength: 0.67
     - _Cull: 2
@@ -123,17 +123,17 @@ Material:
     - _SrcBlend: 5
     - _SrcBlendAlpha: 1
     - _Surface: 1
-    - _Tiling: 1.13
+    - _Tiling: 2.66
     - _WorkflowMode: 0
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 0.7909718, b: 0.514151, a: 1}
+    - _Color: {r: 0.9433962, g: 0.55860585, b: 0.27144888, a: 1}
     - _Color2: {r: 0.5943396, g: 0.2698762, b: 0.2214756, a: 0.050980393}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MoveSpeed: {r: 0, g: 0.46, b: 0, a: 0}
+    - _MoveSpeed: {r: 0, g: 0.9, b: 0, a: 0}
     - _Origin: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
