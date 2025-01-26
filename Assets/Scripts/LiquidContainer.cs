@@ -11,7 +11,6 @@ public class LiquidContainer : MonoBehaviour
     [SerializeField] private Material liquidMaterial;
     [SerializeField] private Collider bottleneckCollider;
     [SerializeField] private Collider liquidLevelCollider;
-    [SerializeField] private bool infiniteContainer;
     [SerializeField] public float mlPerSecond = 50;
     [SerializeField] private Spline spline;
     [SerializeField] private VisualEffect splashEffect;
@@ -23,10 +22,8 @@ public class LiquidContainer : MonoBehaviour
     [SerializeField] private bool neckMoves;
 
     [SerializeField] private float sphereSize;
-    [SerializeField] private float maxRayLength
-        ;
+    [SerializeField] private float maxRayLength;
     [SerializeField] private int pointsForSamplingLength;
-
 
 
     private Vector3[] _pointsForSample;
@@ -38,7 +35,27 @@ public class LiquidContainer : MonoBehaviour
     [SerializeField] internal float _startVolume;
     [SerializeField] internal float volumeMultiplier;
     [SerializeField] internal float _emptyAtVolume;
-    [SerializeField] internal float _filledVolume;
+    [SerializeField] private float _filledVolume;
+
+    public float FilledVolume
+    {
+        get => _filledVolume;
+        set
+        {
+            _filledVolume = Mathf.Clamp(value, 0, _totalVolume);
+            if (_filledVolume >= _totalVolume)
+            {
+                OnContainerFull?.Invoke();
+            }
+            else if (_filledVolume <= 0)
+            {
+                OnContainerEmpty?.Invoke();
+            }
+        }
+    }
+
+    public event Action OnContainerFull;
+    public event Action OnContainerEmpty;
 
     private static readonly int GravityDirectionId = Shader.PropertyToID("_GravityDirection");
     private static readonly int SurfaceLevelId = Shader.PropertyToID("_SurfaceLevel");
@@ -46,22 +63,23 @@ public class LiquidContainer : MonoBehaviour
     private Vector3 ArcPosition(float t)
     {
         Vector3 pos = bottleneckCollider.transform.position + (bottleneckCollider.transform.up * (force * t)) +
-                      Physics.gravity * (0.5f * (t*t));
+                      Physics.gravity * (0.5f * (t * t));
 
         return pos;
     }
 
     private void UpdateSpline()
     {
-
         // adjust the number of nodes in the spline.
-        while (spline.nodes.Count < splineNodes) {
+        while (spline.nodes.Count < splineNodes)
+        {
             spline.AddNode(new SplineNode(Vector3.zero, Vector3.zero));
         }
-        while (spline.nodes.Count > splineNodes && spline.nodes.Count > 2) {
+
+        while (spline.nodes.Count > splineNodes && spline.nodes.Count > 2)
+        {
             spline.RemoveNode(spline.nodes.Last());
         }
-
     }
 
     private void Awake()
@@ -95,12 +113,6 @@ public class LiquidContainer : MonoBehaviour
         {
             UpdateSpline();
             _updateSpline = false;
-
-        }
-
-        if (infiniteContainer && _filledVolume < _totalVolume * 0.5f)
-        {
-            _filledVolume += mlPerSecond * Time.deltaTime * 2;
         }
 
         if (_filledVolume > _emptyAtVolume)
@@ -133,7 +145,6 @@ public class LiquidContainer : MonoBehaviour
                 }
                 else
                 {
-
                     spline.gameObject.SetActive(false);
 
                     if (splashEffect.aliveParticleCount > 0)
@@ -141,7 +152,6 @@ public class LiquidContainer : MonoBehaviour
                         splashEffect.Stop();
                     }
                 }
-
             }
         }
         else
@@ -155,6 +165,7 @@ public class LiquidContainer : MonoBehaviour
                 {
                     splashEffect.Stop();
                 }
+
                 spline.gameObject.SetActive(false);
             }
         }
@@ -178,21 +189,18 @@ public class LiquidContainer : MonoBehaviour
 
     private void PourLiquid()
     {
-        var volumeToRemove = Mathf.Min(_filledVolume, mlPerSecond * Time.deltaTime);
-        _filledVolume -= volumeToRemove;
+        FilledVolume -= mlPerSecond * Time.deltaTime;
 
         if (pours)
         {
-
             var lastPos = -1;
             var maxIter = pointsForSamplingLength;
             var i = 0;
             var firstHit = false;
             while (i < maxIter)
             {
-
                 var x = ArcPosition(i * (1f / pointsForSamplingLength));
-                var x2 = ArcPosition(i+1 * (1f / pointsForSamplingLength));
+                var x2 = ArcPosition(i + 1 * (1f / pointsForSamplingLength));
 
                 var toGround = Utils.ProjectPointToGround(x, x, x2, sphereSize, maxRayLength);
 
@@ -200,26 +208,22 @@ public class LiquidContainer : MonoBehaviour
 
                 if (!firstHit && toGround != null)
                 {
-
                     maxIter = i + extraPourLength;
                     firstHit = true;
                 }
 
                 lastPos = i;
                 i++;
-
-
             }
 
             var splinePoints = lastPos / 4;
 
             spline.nodes[0].Position = _pointsForSample[0];
-            spline.nodes[1].Position = _pointsForSample[splinePoints*1];
-            spline.nodes[2].Position = _pointsForSample[splinePoints*3];
-            spline.nodes[3].Position = _pointsForSample[lastPos-1];
+            spline.nodes[1].Position = _pointsForSample[splinePoints * 1];
+            spline.nodes[2].Position = _pointsForSample[splinePoints * 3];
+            spline.nodes[3].Position = _pointsForSample[lastPos - 1];
 
             splashEffect.transform.position = _pointsForSample[lastPos - 1];
-
         }
 
         // TODO: Where is the point that we hit with the liquid? For now we just assume the cup is below the bottleneck.
@@ -235,7 +239,6 @@ public class LiquidContainer : MonoBehaviour
     private bool TryGetContainer(Vector3 origin, out LiquidContainer liquidContainer)
     {
         //var ray = new Ray(origin, Vector3.down);
-
 
 
         // var raycastHits = Physics.SphereCastAll(ray, splashRadius);
@@ -279,7 +282,6 @@ public class LiquidContainer : MonoBehaviour
 
         if (pours)
         {
-
             var lastPos = -1;
             var maxIter = pointsForSamplingLength;
             var i = 0;
@@ -287,26 +289,22 @@ public class LiquidContainer : MonoBehaviour
             while (i < maxIter)
             {
                 var x = ArcPosition(i * (1f / pointsForSamplingLength));
-                var x2 = ArcPosition(i+1 * (1f / pointsForSamplingLength));
+                var x2 = ArcPosition(i + 1 * (1f / pointsForSamplingLength));
 
-                var toGround = Utils.ProjectPointToGround(x, x,x2, sphereSize, maxRayLength);
+                var toGround = Utils.ProjectPointToGround(x, x, x2, sphereSize, maxRayLength);
 
                 Gizmos.DrawSphere(x, 0.01f);
 
                 if (!firstHit && toGround != null)
                 {
-
                     maxIter = i + extraPourLength;
                     firstHit = true;
                 }
 
                 lastPos = i;
                 i++;
-
             }
-
         }
-
 
 
         // if (shouldPour)
