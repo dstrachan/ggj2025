@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DefaultNamespace;
 using UnityEngine;
 #if UNITY_EDITOR
 
@@ -10,7 +11,7 @@ using UnityEngine;
 namespace SplineMesh {
     /// <summary>
     /// Deform a mesh and place it along a spline, given various parameters.
-    /// 
+    ///
     /// This class intend to cover the most common situations of mesh bending. It can be used as-is in your project,
     /// or can serve as a source of inspiration to write your own procedural generator.
     /// </summary>
@@ -86,12 +87,28 @@ namespace SplineMesh {
                 int i = 0;
                 foreach (var curve in spline.curves) {
                     var go = FindOrCreate("segment " + i++ + " mesh");
+                    go.layer = LayerMask.NameToLayer("Bar");
+                    go.tag = "pouring";
+
+                    var pouring = go.GetComponent<PouringCollider>();
+                    if (pouring == null)
+                    {
+                        go.AddComponent<PouringCollider>();
+                    }
+
                     go.GetComponent<MeshBender>().SetInterval(curve);
                     go.GetComponent<MeshCollider>().enabled = generateCollider;
                     used.Add(go);
                 }
             } else {
                 var go = FindOrCreate("segment 1 mesh");
+                go.layer = LayerMask.NameToLayer("Bar");
+                go.tag = "pouring";
+                var pouring = go.GetComponent<PouringCollider>();
+                if (pouring == null)
+                {
+                    go.AddComponent<PouringCollider>();
+                }
                 go.GetComponent<MeshBender>().SetInterval(spline, 0);
                 go.GetComponent<MeshCollider>().enabled = generateCollider;
                 used.Add(go);

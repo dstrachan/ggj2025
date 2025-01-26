@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2887358962123409593}
   - component: {fileID: 6588307612451549104}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BeerGlass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1441108109136983531}
   - component: {fileID: 1783242726474927583}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bottleneck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6339675363553197899}
   - component: {fileID: 4521933489689930669}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BeerGlassContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,9 +163,15 @@ MonoBehaviour:
   liquidRenderer: {fileID: 6546044041320099243}
   liquidMaterial: {fileID: 2100000, guid: 21c8c1e91ca8dd54b8ede6363b81688a, type: 2}
   bottleneckCollider: {fileID: 1783242726474927583}
+  pouringLiquidCollider: {fileID: 0}
   infiniteContainer: 0
   mlPerSecond: 50
   splashRadius: 0.025
+  spline: {fileID: 0}
+  splashEffect: {fileID: 0}
+  force: 0
+  splineNodes: 0
+  _filledVolume: 0
 --- !u!1001 &1200099810140435652
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -218,6 +224,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 01ccfaac12646b54ba4ee80c14cf6e14, type: 2}
+    - target: {fileID: -6525817089427614033, guid: b2aeb61590cb199498752ccd0134a62d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: -5568371526223589888, guid: b2aeb61590cb199498752ccd0134a62d, type: 3}
       propertyPath: m_Layer
       value: 3
