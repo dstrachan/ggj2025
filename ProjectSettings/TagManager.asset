@@ -6,6 +6,7 @@ TagManager:
   tags:
   - pouring
   - activeBottle
+  - spline
   layers:
   - Default
   - TransparentFX

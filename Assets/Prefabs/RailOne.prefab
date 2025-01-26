@@ -33,6 +33,7 @@ Transform:
   - {fileID: 6988021175691051218}
   - {fileID: 2593390134870796715}
   - {fileID: 2770139563980653205}
+  - {fileID: 7622996311011631104}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4632148807158781005
@@ -49,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   glass: {fileID: 3688995429645978505, guid: 4327511fcde0cb14fbd4d336046e2c8c, type: 3}
   spawnPos: {fileID: 2770139563980653205}
+  glassGoodbye: {fileID: 7622996311011631104}
   startPoint: {fileID: 6988021175691051218}
   endPoint: {fileID: 2593390134870796715}
   moveCurve:
@@ -84,10 +86,44 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  howOftenAGlassAppears: 1
+  howOftenAGlassAppearsMin: 10
+  howOftenAGlassAppearsMax: 2
+  howOftenAGlassAppears: 10
   glassSpeed: 1.2
   _lastGlass: 0
   activeGlass: 0
+  activeGlassObj: {fileID: 0}
+--- !u!1 &3820803188675288932
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7622996311011631104}
+  m_Layer: 0
+  m_Name: GlassGoodbye
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7622996311011631104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3820803188675288932}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.766, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7115023316015716989}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5359553303696994454
 GameObject:
   m_ObjectHideFlags: 0

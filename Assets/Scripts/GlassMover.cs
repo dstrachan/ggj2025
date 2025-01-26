@@ -9,7 +9,7 @@ namespace DefaultNamespace
         public Vector3 startPos;
         public float glassSpeed;
 
-        private float _timeSinceStarted;
+        public float _timeSinceStarted;
 
         public bool started;
         public AnimationCurve moveCurve;
@@ -18,7 +18,6 @@ namespace DefaultNamespace
         {
             if (started)
             {
-
                 _timeSinceStarted += Time.deltaTime;
                 float t1 = moveCurve.Evaluate(_timeSinceStarted * glassSpeed);
                 transform.localPosition = Vector3.Lerp(startPos, target, t1);
@@ -27,6 +26,7 @@ namespace DefaultNamespace
                 if (Vector3.Distance(transform.position, target) < 0.01f)
                 {
                     started = false;
+                    _timeSinceStarted = 0;
                 }
             }
 

@@ -12,7 +12,7 @@ public class LiquidContainer : MonoBehaviour
     [SerializeField] private Collider bottleneckCollider;
     [SerializeField] private Collider liquidLevelCollider;
     [SerializeField] public float mlPerSecond = 50;
-    [SerializeField] private Spline spline;
+    [SerializeField] internal Spline spline;
     [SerializeField] private VisualEffect splashEffect;
     [SerializeField] private float force;
     [SerializeField] private int extraPourLength = 4;
@@ -49,6 +49,7 @@ public class LiquidContainer : MonoBehaviour
             }
             else if (_filledVolume <= _emptyAtVolume)
             {
+                print("Container is empty");
                 OnContainerEmpty?.Invoke();
             }
         }
