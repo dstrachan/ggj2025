@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class BottleController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 0.5f;
     [SerializeField] private float rotateForwardSpeed = 40;
     [SerializeField] private float rotateBackwardSpeed = 50;
     [SerializeField] private Vector2 xBounds = new(-2.2f, -1.2f);
@@ -39,7 +38,7 @@ public class BottleController : MonoBehaviour
         if (!_container.CompareTag("activeBottle")) return;
 
         // Position
-        var moveValue = _moveAction.ReadValue<Vector2>().x * moveSpeed * Time.deltaTime;
+        var moveValue = _moveAction.ReadValue<float>() * Time.deltaTime;
         transform.Translate(moveValue, 0, 0, Space.World);
 
         var clampedPosition = transform.position;

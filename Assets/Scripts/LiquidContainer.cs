@@ -13,7 +13,6 @@ public class LiquidContainer : MonoBehaviour
     [SerializeField] private Collider liquidLevelCollider;
     [SerializeField] private bool infiniteContainer;
     [SerializeField] public float mlPerSecond = 50;
-    [SerializeField] private float splashRadius = 0.025f;
     [SerializeField] private Spline spline;
     [SerializeField] private VisualEffect splashEffect;
     [SerializeField] private float force;
