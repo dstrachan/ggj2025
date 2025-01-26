@@ -26,6 +26,9 @@ public class LiquidContainer : MonoBehaviour
     [SerializeField] private int pointsForSamplingLength;
 
 
+    public AudioSource fillAudio;
+    public AudioSource filledAudio;
+
     private Vector3[] _pointsForSample;
 
     private bool _updateSpline;
@@ -37,14 +40,46 @@ public class LiquidContainer : MonoBehaviour
     [SerializeField] internal float _emptyAtVolume;
     [SerializeField] private float _filledVolume;
 
+    private float _lastFilledAmount;
+    private float startedFillingTime;
+    private bool containerFull;
+
     public float FilledVolume
     {
         get => _filledVolume;
         set
         {
+            if (!_fillAudioNull)
+            {
+                var audioSource = fillAudio;
+
+                print($"Filling not null {_lastFilledAmount}, {_filledVolume}, {containerFull}, {containerFull}, {audioSource.isPlaying}");
+
+                if (!containerFull && !audioSource.isPlaying && _lastFilledAmount < _filledVolume)
+                {
+                    print("Filling");
+                    startedFillingTime = Time.time;
+
+                    audioSource.Play();
+
+                }
+
+            }
+
             _filledVolume = Mathf.Clamp(value, _emptyAtVolume, _totalVolume);
             if (_filledVolume >= _totalVolume)
             {
+                if (!_fillAudioNull)
+                {
+                    fillAudio.Stop();
+                }
+
+                if (!_filledAudioNull)
+                {
+                    filledAudio.Play();
+                }
+
+                containerFull = true;
                 OnContainerFull?.Invoke();
             }
             else if (_filledVolume <= _emptyAtVolume)
@@ -52,6 +87,10 @@ public class LiquidContainer : MonoBehaviour
                 print("Container is empty");
                 OnContainerEmpty?.Invoke();
             }
+
+
+            startedFillingTime = Time.time;
+
         }
     }
 
@@ -60,6 +99,8 @@ public class LiquidContainer : MonoBehaviour
 
     private static readonly int GravityDirectionId = Shader.PropertyToID("_GravityDirection");
     private static readonly int SurfaceLevelId = Shader.PropertyToID("_SurfaceLevel");
+    private bool _fillAudioNull;
+    private bool _filledAudioNull;
 
     private Vector3 ArcPosition(float t)
     {
@@ -85,6 +126,9 @@ public class LiquidContainer : MonoBehaviour
 
     private void Awake()
     {
+        if (fillAudio == null) _fillAudioNull = true;
+        if (filledAudio == null) _filledAudioNull = true;
+
         _updateSpline = pours;
         _pointsForSample = new Vector3[pointsForSamplingLength];
 
@@ -114,6 +158,17 @@ public class LiquidContainer : MonoBehaviour
         {
             UpdateSpline();
             _updateSpline = false;
+        }
+
+        if (!_fillAudioNull)
+        {
+            if (Time.time - startedFillingTime > 0.05f)
+            {
+                _lastFilledAmount = _filledVolume;
+                print("Stopped Filling");
+
+                fillAudio.Pause();
+            }
         }
 
         if (_filledVolume > _emptyAtVolume)

@@ -1274,6 +1274,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2593390134870796715, guid: 4fde3fa5a5650334f85664fa097f668c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.858
+      objectReference: {fileID: 0}
     - target: {fileID: 3811860115300387145, guid: 4fde3fa5a5650334f85664fa097f668c, type: 3}
       propertyPath: m_Name
       value: RailOne (3)
@@ -2308,6 +2312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1094092477}
   - component: {fileID: 1094092476}
+  - component: {fileID: 1094092478}
   m_Layer: 0
   m_Name: BottleSpawner
   m_TagString: Untagged
@@ -2366,6 +2371,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  openNewBeer: {fileID: 8300000, guid: b2ccfd52457e02049bd4715f62a0fb49, type: 3}
+  throwOutOldBeer: {fileID: 8300000, guid: ea6970e17fe953f4fb2bd20b909eff3b, type: 3}
   timeToThrowAway: 0.4
 --- !u!4 &1094092477
 Transform:
@@ -2376,12 +2383,109 @@ Transform:
   m_GameObject: {fileID: 1094092475}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.39138398, w: 0.92022747}
-  m_LocalPosition: {x: -0.492, y: -3.191, z: 7.276}
+  m_LocalPosition: {x: -0.701, y: -2.791, z: 7.211}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 46.081}
+--- !u!82 &1094092478
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094092475}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: b2ccfd52457e02049bd4715f62a0fb49, type: 3}
+  m_Resource: {fileID: 8300000, guid: b2ccfd52457e02049bd4715f62a0fb49, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.824
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1124217261
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2390,6 +2494,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2593390134870796715, guid: 4fde3fa5a5650334f85664fa097f668c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.868
+      objectReference: {fileID: 0}
     - target: {fileID: 3811860115300387145, guid: 4fde3fa5a5650334f85664fa097f668c, type: 3}
       propertyPath: m_Name
       value: RailOne (2)
@@ -3815,6 +3923,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2593390134870796715, guid: 4fde3fa5a5650334f85664fa097f668c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.847
+      objectReference: {fileID: 0}
     - target: {fileID: 3811860115300387145, guid: 4fde3fa5a5650334f85664fa097f668c, type: 3}
       propertyPath: m_Name
       value: RailOne (1)
@@ -3922,7 +4034,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 589c19c3643932048be4c249a9f3fb4a, type: 3}
   m_Resource: {fileID: 8300000, guid: 589c19c3643932048be4c249a9f3fb4a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -4231,9 +4343,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bottleToControl: {fileID: 362851788}
-  rotateForwardSpeed: 30
-  rotateBackwardSpeed: 90
-  xBounds: {x: -2.65, y: -1.3}
+  rotateForwardSpeed: 45
+  rotateBackwardSpeed: 100
+  xBounds: {x: -2.8, y: -1.3}
   rotateBounds: {x: 45, y: 130}
   startingRail: {fileID: 1806927329}
   rails:
@@ -4266,6 +4378,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2593390134870796715, guid: 4fde3fa5a5650334f85664fa097f668c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.837
+      objectReference: {fileID: 0}
     - target: {fileID: 3811860115300387145, guid: 4fde3fa5a5650334f85664fa097f668c, type: 3}
       propertyPath: m_Name
       value: RailOne (4)
@@ -4577,6 +4693,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2593390134870796715, guid: 4fde3fa5a5650334f85664fa097f668c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.769
+      objectReference: {fileID: 0}
     - target: {fileID: 3811860115300387145, guid: 4fde3fa5a5650334f85664fa097f668c, type: 3}
       propertyPath: m_Name
       value: RailOne

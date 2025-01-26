@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Numerics;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
+using Vector3 = UnityEngine.Vector3;
 
 namespace DefaultNamespace
 {
@@ -38,6 +41,7 @@ namespace DefaultNamespace
                 movingAway = false;
                 var spawnedGlass = Instantiate(glass, transform);
                 spawnedGlass.transform.localPosition = spawnPos.localPosition;
+                spawnedGlass.transform.localRotation = Quaternion.AngleAxis(Random.Range(-180,180), Vector3.up) * spawnedGlass.transform.localRotation;
                 _lastGlass = Time.time;
 
                 var target = new Vector3(Random.Range(startPoint.localPosition.x, endPoint.localPosition.x),0,0);

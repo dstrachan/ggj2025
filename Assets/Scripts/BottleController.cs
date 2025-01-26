@@ -34,6 +34,10 @@ public class BottleController : MonoBehaviour
 
     private void Start()
     {
+
+        // Locks the cursor
+        Cursor.lockState = CursorLockMode.Locked;
+
         _moveAction = InputSystem.actions.FindAction("Move");
         _rotateAction = InputSystem.actions.FindAction("Rotate");
         _moveRailAction = InputSystem.actions.FindAction("MoveRail");
@@ -45,7 +49,7 @@ public class BottleController : MonoBehaviour
 
     private void Update()
     {
-        if (!_container.CompareTag("activeBottle")) return;
+        if (!_container || !_container.CompareTag("activeBottle")) return;
 
         // Position
         var moveValue = _moveAction.ReadValue<float>() * Time.deltaTime;
