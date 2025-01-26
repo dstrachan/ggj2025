@@ -22,6 +22,13 @@ public class LiquidContainer : MonoBehaviour
     [SerializeField] private bool pours;
     [SerializeField] private bool prefill;
 
+    [SerializeField] private float sphereSize;
+    [SerializeField] private float maxRayLength
+        ;
+    [SerializeField] private int pointsForSamplingLength;
+
+
+
     private Vector3[] _pointsForSample;
 
     private bool _updateSpline;
@@ -57,7 +64,7 @@ public class LiquidContainer : MonoBehaviour
     private void Awake()
     {
         _updateSpline = pours;
-        _pointsForSample = new Vector3[200];
+        _pointsForSample = new Vector3[pointsForSamplingLength];
 
         Debug.Assert(liquidRenderer is not null);
         Debug.Assert(liquidMaterial is not null);
@@ -163,14 +170,16 @@ public class LiquidContainer : MonoBehaviour
         {
 
             var lastPos = -1;
-            var maxIter = 199;
+            var maxIter = pointsForSamplingLength;
             var i = 0;
             var firstHit = false;
             while (i < maxIter)
             {
 
-                var x = ArcPosition(i * (1f / 200f));
-                var toGround = Utils.ProjectPointToGround(x);
+                var x = ArcPosition(i * (1f / pointsForSamplingLength));
+                var x2 = ArcPosition(i+1 * (1f / pointsForSamplingLength));
+
+                var toGround = Utils.ProjectPointToGround(x, x, x2, sphereSize, maxRayLength);
 
                 _pointsForSample[i] = x;
 
@@ -181,9 +190,9 @@ public class LiquidContainer : MonoBehaviour
                     firstHit = true;
                 }
 
-
-                i++;
                 lastPos = i;
+                i++;
+
 
             }
 
@@ -255,13 +264,15 @@ public class LiquidContainer : MonoBehaviour
         {
 
             var lastPos = -1;
-            var maxIter = 200;
+            var maxIter = pointsForSamplingLength;
             var i = 0;
             var firstHit = false;
             while (i < maxIter)
             {
-                var x = ArcPosition(i * (1f / 200f));
-                var toGround = Utils.ProjectPointToGround(x);
+                var x = ArcPosition(i * (1f / pointsForSamplingLength));
+                var x2 = ArcPosition(i+1 * (1f / pointsForSamplingLength));
+
+                var toGround = Utils.ProjectPointToGround(x, x,x2, sphereSize, maxRayLength);
 
                 Gizmos.DrawSphere(x, 0.01f);
 

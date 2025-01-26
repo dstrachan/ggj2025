@@ -6,13 +6,13 @@ namespace DefaultNamespace
     public class Utils : MonoBehaviour
     {
 
-        public static RaycastHit? ProjectPointToGround(Vector3 point)
+        public static RaycastHit? ProjectPointToGround(Vector3 point, Vector3 from, Vector3 to, float sphereSize, float maxRayLength)
         {
+
             var didHit = Physics.Raycast(
-                point,
-                Vector3.down,
+                new Ray(point, (to - from).normalized),
                 out var hit,
-                0.01f,
+                maxRayLength,
                 LayerMask.GetMask("PourCanHit"),
                 QueryTriggerInteraction.Collide);
 
