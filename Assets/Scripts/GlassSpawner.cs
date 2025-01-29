@@ -35,7 +35,9 @@ namespace DefaultNamespace
 
         private void Start()
         {
+
             howOftenAGlassAppears = Random.Range(howOftenAGlassAppearsMin, howOftenAGlassAppearsMax);
+            _lastGlass = Time.time - Random.Range(0, howOftenAGlassAppears);
         }
 
         private void Update()
