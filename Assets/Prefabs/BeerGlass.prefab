@@ -381,6 +381,7 @@ MonoBehaviour:
   mlPerSecond: 50
   spline: {fileID: 0}
   splashEffect: {fileID: 0}
+  foamingEffect: {fileID: 0}
   force: 0
   extraPourLength: 0
   pours: 0

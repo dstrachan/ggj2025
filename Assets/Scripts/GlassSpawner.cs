@@ -11,6 +11,9 @@ namespace DefaultNamespace
 {
     public class GlassSpawner : MonoBehaviour
     {
+
+        public PoundSpawner poundSpawner;
+
         public GameObject glass;
         public Transform spawnPos;
         public Transform glassGoodbye;
@@ -18,9 +21,10 @@ namespace DefaultNamespace
         public Transform startPoint;
         public Transform endPoint;
         public AnimationCurve moveCurve;
+        public AnimationCurve moveAwayCurve;
 
-        public float howOftenAGlassAppearsMin = 10f;
-        public float howOftenAGlassAppearsMax = 2f;
+        public float howOftenAGlassAppearsMin = 2f;
+        public float howOftenAGlassAppearsMax = 10f;
         public float howOftenAGlassAppears = 2f;
         public float glassSpeed = 1.4f;
         public float _lastGlass;
@@ -48,7 +52,7 @@ namespace DefaultNamespace
 
                 var liquidContainer = spawnedGlass.GetComponentInChildren<LiquidContainer>();
 
-                liquidContainer.OnContainerFull += LiquidContainerOnOnContainerFull;
+                liquidContainer.OnContainerFull += LiquidContainerOnContainerFull;
 
                 var glassMover = spawnedGlass.AddComponent<GlassMover>();
                 glassMover.target = target;
@@ -65,7 +69,7 @@ namespace DefaultNamespace
 
         }
 
-        private void LiquidContainerOnOnContainerFull()
+        private void LiquidContainerOnContainerFull()
         {
             if (!movingAway)
             {
@@ -75,7 +79,7 @@ namespace DefaultNamespace
                 var glassMover = activeGlassObj.GetComponent<GlassMover>();
                 glassMover.target = target;
                 glassMover.glassSpeed = glassSpeed;
-                glassMover.moveCurve = moveCurve;
+                glassMover.moveCurve = moveAwayCurve;
                 glassMover.startPos = glassMover.transform.localPosition;
                 glassMover._timeSinceStarted = 0;
                 glassMover.started = true;
@@ -83,6 +87,9 @@ namespace DefaultNamespace
 
                 glassMover.AddComponent<TimedDestroy>().duration = 8f;
                 activeGlassObj = null;
+
+
+                poundSpawner.SpawnPound();
 
                 _lastGlass = Time.time;
             }

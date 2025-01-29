@@ -14,6 +14,7 @@ public class LiquidContainer : MonoBehaviour
     [SerializeField] public float mlPerSecond = 50;
     [SerializeField] internal Spline spline;
     [SerializeField] private VisualEffect splashEffect;
+    [SerializeField] private VisualEffect foamingEffect;
     [SerializeField] private float force;
     [SerializeField] private int extraPourLength = 4;
     private int splineNodes = 4;
@@ -101,6 +102,12 @@ public class LiquidContainer : MonoBehaviour
     private static readonly int SurfaceLevelId = Shader.PropertyToID("_SurfaceLevel");
     private bool _fillAudioNull;
     private bool _filledAudioNull;
+    private bool _isfoamingEffectNotNull;
+
+    private void Start()
+    {
+        _isfoamingEffectNotNull = foamingEffect != null;
+    }
 
     private Vector3 ArcPosition(float t)
     {
@@ -173,6 +180,11 @@ public class LiquidContainer : MonoBehaviour
 
         if (_filledVolume > _emptyAtVolume)
         {
+            if (_isfoamingEffectNotNull && foamingEffect.aliveParticleCount <= 0)
+            {
+                foamingEffect.Play();
+            }
+
             liquidRenderer.enabled = true;
 
             var surfaceLevel = GetSurfaceLevel();
@@ -282,45 +294,9 @@ public class LiquidContainer : MonoBehaviour
             splashEffect.transform.position = _pointsForSample[lastPos - 1];
         }
 
-        // TODO: Where is the point that we hit with the liquid? For now we just assume the cup is below the bottleneck.
-        // if (TryGetContainer(bottleneckCollider.bounds.min, out var container))
-        // {
-        //     var volumeToAdd = Mathf.Min(container._totalVolume - container._filledVolume, volumeToRemove);
-        //     container._filledVolume += volumeToAdd;
-        // }
-
-        // TODO: Particles
     }
 
-    private bool TryGetContainer(Vector3 origin, out LiquidContainer liquidContainer)
-    {
-        //var ray = new Ray(origin, Vector3.down);
 
-
-        // var raycastHits = Physics.SphereCastAll(ray, splashRadius);
-        //
-        // bool firstSplashHit = false;
-        // foreach (var hit in raycastHits.OrderBy(x => x.distance))
-        // {
-        //     if (hit.collider is null || hit.collider == bottleneckCollider) continue;
-        //
-        //     if (!firstSplashHit)
-        //     {
-        //         splashEffect.transform.position = hit.point;
-        //         firstSplashHit = true;
-        //     }
-        //
-        //     var container = hit.collider.GetComponentInParent<LiquidContainer>();
-        //     if (container is not null)
-        //     {
-        //         liquidContainer = container;
-        //         return true;
-        //     }
-        // }
-
-        liquidContainer = null;
-        return false;
-    }
 
     private void OnDrawGizmos()
     {

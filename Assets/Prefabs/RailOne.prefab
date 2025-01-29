@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00faec4c4c574c2998cb0921210d4f89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poundSpawner: {fileID: 0}
   glass: {fileID: 3688995429645978505, guid: 4327511fcde0cb14fbd4d336046e2c8c, type: 3}
   spawnPos: {fileID: 2770139563980653205}
   glassGoodbye: {fileID: 7622996311011631104}
@@ -86,12 +87,37 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  moveAwayCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2.7226079
+      outSlope: 2.7226079
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06372827
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   howOftenAGlassAppearsMin: 10
   howOftenAGlassAppearsMax: 2
   howOftenAGlassAppears: 10
   glassSpeed: 1.2
   _lastGlass: 0
   activeGlass: 0
+  movingAway: 0
   activeGlassObj: {fileID: 0}
 --- !u!1 &3820803188675288932
 GameObject:

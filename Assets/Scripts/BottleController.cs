@@ -14,12 +14,16 @@ public class BottleController : MonoBehaviour
     [SerializeField] private Transform startingRail;
     [SerializeField] private Transform[] rails;
     [SerializeField] private float railTransferTime = 0.1f;
+    [SerializeField] private float speed = 0.3f;
 
     private LiquidContainer _container;
     private InputAction _moveAction;
     private InputAction _rotateAction;
     private InputAction _moveRailAction;
     private int _currentRailIndex;
+
+    // Starts with one in scene
+    public int bottlesUsed = 1;
 
     private void Awake()
     {
@@ -30,6 +34,7 @@ public class BottleController : MonoBehaviour
     {
         bottleToControl = newBottle;
         _container = bottleToControl.GetComponentInChildren<LiquidContainer>();
+        bottlesUsed++;
     }
 
     private void Start()
@@ -52,7 +57,7 @@ public class BottleController : MonoBehaviour
         if (!_container || !_container.CompareTag("activeBottle")) return;
 
         // Position
-        var moveValue = _moveAction.ReadValue<float>() * Time.deltaTime;
+        var moveValue = _moveAction.ReadValue<float>() * Time.deltaTime * speed;
         bottleToControl.transform.Translate(moveValue, 0, 0, Space.World);
 
         var clampedPosition = bottleToControl.transform.position;
